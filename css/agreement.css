@@ -1,0 +1,21 @@
+#consentText
+{
+	width: 50%;
+	margin: auto;
+	max-height: 500px;
+	overflow-y: scroll;
+}
+h1
+{
+	text-align: center;
+}
+#acceptForm
+{
+	width: 140px;
+	margin: auto;
+}
+#submitButton
+{
+	width: 100%;
+	margin:auto;
+}
