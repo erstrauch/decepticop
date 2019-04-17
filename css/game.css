@@ -1,0 +1,73 @@
+body
+{
+	height: 96vh;
+}
+.card
+{
+	height: 100%;
+}
+#player0
+{
+	width: 75%;
+	margin: auto;
+	height: 12.5%;
+	text-align: center;
+}
+#rotated
+{
+	height: 75%;
+	width: 100%;
+}
+#table
+{
+	height: 100%;
+	width: 70%;
+	float: left;
+	margin-left: 7%;
+	background-color: green;
+}
+#player1
+{
+	height: 100%;
+	width: 7.5%;
+	float: left;
+	text-align: right;
+}
+#player1 .card
+{
+	transform: rotate(90deg);
+	height: 12.5vh;
+	margin-top: -50%;
+}
+#player2
+{
+	height: 100%;
+	width: 7.5%;
+	float: right;
+	text-align: left;
+}
+#player2 .card
+{
+	transform: rotate(90deg);
+	height: 12.5vh;
+	margin-top: -50%;
+}
+#player3
+{
+	width: 75%;
+	margin: auto;
+	height: 12.5%;
+	text-align: center;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+#player3 .card:hover
+{
+	height: 110%;
+}
+
+#playerBox 
+{
+	width: 100%;
+	text-align: center;	
+}

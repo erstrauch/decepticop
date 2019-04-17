@@ -8,6 +8,7 @@ Http.onreadystatechange = (e)=>
 	if(Http.readyState == 4 && Http.status == 200)
 	{
 		var deck = JSON.parse(Http.responseText);
+		deal(deck);
 		console.log(deck);
 	}
 }
@@ -43,15 +44,21 @@ function addToPile(deck, pile, card)
 {
 	const Http = new XMLHttpRequest();
 	//create query string for the card
-	const url='https://deckofcardsapi.com/api/deck/' + deck.deck_id + '/pile/player' + pile + '/add/?card=' + card.code;
+	const url= 'https://deckofcardsapi.com/api/deck/' + deck.deck_id + '/pile/' + pile + '/add/?cards=' + card.card_id;
 	Http.open("GET", url);
 	Http.send();
 	Http.onreadystatechange = (e)=>
 	{
 		if(Http.readyState == 4 && Http.status == 200)
 		{
-			console.log(Http.responseText);
-			document.getElementById("player" + pile).append("<img src = '" + card.image + "'>");
+			//console.log(pile);
+			//console.log(Http.responseText);
+			let node = document.createElement("img");
+			console.log(node);
+			node.src = card.image;
+			node.classList.add("card");
+			node.height = document.getElementById("player1").height;
+			document.getElementById("player" + pile).appendChild(node);
 		}
 	}
 }

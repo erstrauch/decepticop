@@ -3,13 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>BS - Play!</title>
-    <link rel="stylesheet" type="text/css" href="./css/gamee.css">
+    <link rel="stylesheet" type="text/css" href="./css/game.css">
     <script src="./js/game.js"></script>
 </head>
-    <div id = "player1"></div>
-    <div id = "player2"></div>
-    <div id = "player3"></div>
-    <div id = "table"></div>
-    <div id = "human"></div>
 <body>
+    <div id = "player0"></div>
+    <div id = "rotated">
+        <div id = "player1"></div>
+        <div id = "table"></div>
+        <div id = "player2"></div>
+    </div>
+    <div id = "playerBox">
+        <form>
+            <select>
+                <option value = "1">1</option>
+                <option value = "2">2</option>
+                <option value = "3">3</option>
+                <option value = "4">4</option>
+            </select>
+            <select>
+                <option value = "2">2</option>
+                <option value = "3">3</option>
+                <option value = "4">4</option>
+                <option value = "5">5</option>
+                <option value = "6">6</option>
+                <option value = "7">7</option>
+                <option value = "8">8</option>
+                <option value = "9">9</option>
+                <option value = "10">10</option>
+                <option value = "Jack">Jack</option>
+                <option value = "Queen">Queen</option>
+                <option value = "King">King</option>
+                <option value = "Ace">Ace</option>
+            </select>
+            <button>Submit</button>
+        </form>
+    </div>
+    <div id = "player3"></div>
 </body>
