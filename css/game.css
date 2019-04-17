@@ -71,3 +71,12 @@ body
 	width: 100%;
 	text-align: center;	
 }
+.selected
+{
+	border: solid 1px red;
+}
+
+#table .card
+{
+	height: 12.5%;
+}

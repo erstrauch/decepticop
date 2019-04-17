@@ -14,30 +14,28 @@
         <div id = "player2"></div>
     </div>
     <div id = "playerBox">
-        <form>
-            <select>
-                <option value = "1">1</option>
-                <option value = "2">2</option>
-                <option value = "3">3</option>
-                <option value = "4">4</option>
-            </select>
-            <select>
-                <option value = "2">2</option>
-                <option value = "3">3</option>
-                <option value = "4">4</option>
-                <option value = "5">5</option>
-                <option value = "6">6</option>
-                <option value = "7">7</option>
-                <option value = "8">8</option>
-                <option value = "9">9</option>
-                <option value = "10">10</option>
-                <option value = "Jack">Jack</option>
-                <option value = "Queen">Queen</option>
-                <option value = "King">King</option>
-                <option value = "Ace">Ace</option>
-            </select>
-            <button>Submit</button>
-        </form>
+        <select id = "numberSelect" onchange="clearSelected();">
+            <option value = "1">1</option>
+            <option value = "2">2</option>
+            <option value = "3">3</option>
+            <option value = "4">4</option>
+        </select>
+        <select id = "cardSelect">
+            <option value = "2">2</option>
+            <option value = "3">3</option>
+            <option value = "4">4</option>
+            <option value = "5">5</option>
+            <option value = "6">6</option>
+            <option value = "7">7</option>
+            <option value = "8">8</option>
+            <option value = "9">9</option>
+            <option value = "10">10</option>
+            <option value = "Jack">Jack</option>
+            <option value = "Queen">Queen</option>
+            <option value = "King">King</option>
+            <option value = "Ace">Ace</option>
+        </select>
+        <button onclick = "playerPlayCards();">Submit</button>
     </div>
     <div id = "player3"></div>
 </body>
