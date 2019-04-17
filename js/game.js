@@ -100,7 +100,7 @@ function getCardsFromPile(pile, nextCall)
 	{
 		if(Http.readyState == 4 && Http.status == 200)
 		{
-			let piles = JSON.parse(http.responseText);
+			let piles = JSON.parse(http.response);
 			console.log(piles);
 		}
 	}
@@ -134,11 +134,14 @@ function movePiles(pile1, pile2, cards, callback)
 		{
 			let http2 = new XMLHttpRequest();
 			let url2 = 'https://deckofcardsapi.com/api/deck/' + deck.deck_id + '/pile/' + pile2 + '/add/?cards=' + cards;
-			http2.open("GET", url);
+			http2.open("GET", url2);
 			http2.send();
 			http2.onreadystatechange = (e) => 
 			{
-				callback();
+				if(http2.readyState == 4 && http2.status == 200)
+				{	
+					callback();
+				}
 			}
 		}
 	}
