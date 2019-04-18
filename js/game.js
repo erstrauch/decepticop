@@ -90,25 +90,9 @@ function clearSelected()
 	}
 }
 
-function getCardsFromPile(pile, nextCall)
-{
-	let http = new XMLHttpRequest();
-	let url = "https://deckofcardsapi.com/api/deck/" + deck.deck_id + "/pile/" + pile + "/list/"
-	http.open("GET", url);
-	http.send();
-	http.onreadystatechange = (e)=>
-	{
-		if(Http.readyState == 4 && Http.status == 200)
-		{
-			let piles = JSON.parse(http.response);
-			console.log(piles);
-		}
-	}
-}
-
 function playerPlayCards()
 {
-	getCardsFromPile("lastPlayed", movePiles);
+	moveAllCards("lastPlayed", "table");
 
 	let selecteds = document.getElementsByClassName("selected");
 	let cards = "";
@@ -117,31 +101,45 @@ function playerPlayCards()
 		cards += selecteds[i].card.code + ",";
 		document.getElementById("table").appendChild(selecteds[i]);
 	}
-	movePiles(3,"lastPlayed", cards, function(){});
+	movePiles("lastPlayed", cards, function(){});
 	clearSelected();
 }
 
-function movePiles(pile1, pile2, cards, callback)
+function movePiles(pile, cards, callback)
+{
+	let http2 = new XMLHttpRequest();
+	let url2 = 'https://deckofcardsapi.com/api/deck/' + deck.deck_id + '/pile/' + pile + '/add/?cards=' + cards;
+	http2.open("GET", url2);
+	http2.send();
+	http2.onreadystatechange = (e) => 
+	{
+		if(http2.readyState == 4 && http2.status == 200)
+		{	
+			callback();
+		}
+	}
+}
+
+function moveAllCards(pile1, pile2)
 {
 	const Http = new XMLHttpRequest();
 	// create query string for the card
-	const url= 'https://deckofcardsapi.com/api/deck/' + deck.deck_id + '/pile/' + pile1 + '/draw/?cards=' + cards;
+	const url = "https://deckofcardsapi.com/api/deck/" + deck.deck_id + "/pile/" + pile1 + "/list/";
 	Http.open("GET", url);
 	Http.send();
 	Http.onreadystatechange = (e)=>
 	{
 		if(Http.readyState == 4 && Http.status == 200)
 		{
-			let http2 = new XMLHttpRequest();
-			let url2 = 'https://deckofcardsapi.com/api/deck/' + deck.deck_id + '/pile/' + pile2 + '/add/?cards=' + cards;
-			http2.open("GET", url2);
-			http2.send();
-			http2.onreadystatechange = (e) => 
+			let response = JSON.parse(Http.responseText);
+			var cards = ""
+			if(response.piles[pile1] != undefined)
 			{
-				if(http2.readyState == 4 && http2.status == 200)
-				{	
-					callback();
+				for(var i = 0; i < response.piles[pile1].cards.length; i++)
+				{
+					cards += response.piles[pile1].cards[i].code + ","
 				}
+				movePiles(pile2, cards, function(){});
 			}
 		}
 	}
