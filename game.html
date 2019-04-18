@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>BS - Play!</title>
     <link rel="stylesheet" type="text/css" href="./css/game.css">
+    <script src="./js/bsbot.js"></script>
+    <script src="./js/gameState.js"></script>
     <script src="./js/game.js"></script>
 </head>
 <body>
@@ -20,22 +22,9 @@
             <option value = "3">3</option>
             <option value = "4">4</option>
         </select>
-        <select id = "cardSelect">
-            <option value = "2">2</option>
-            <option value = "3">3</option>
-            <option value = "4">4</option>
-            <option value = "5">5</option>
-            <option value = "6">6</option>
-            <option value = "7">7</option>
-            <option value = "8">8</option>
-            <option value = "9">9</option>
-            <option value = "10">10</option>
-            <option value = "Jack">Jack</option>
-            <option value = "Queen">Queen</option>
-            <option value = "King">King</option>
-            <option value = "Ace">Ace</option>
-        </select>
-        <button onclick = "playerPlayCards();">Submit</button>
+        <a id = "card">Ace</a>
+        <button id = "submitButton" class = "playerButton" onclick = "playerPlayCards();">Submit</button>
+        <button class = "playerButton">BS!</button>
     </div>
     <div id = "player3"></div>
 </body>
