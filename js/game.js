@@ -1,3 +1,4 @@
+let state = null;
 let deck = null;
 const Http = new XMLHttpRequest();
 const url='https://deckofcardsapi.com/api/deck/new/shuffle/';
@@ -8,6 +9,7 @@ Http.onreadystatechange = (e)=>
 	if(Http.readyState == 4 && Http.status == 200)
 	{
 		deck = JSON.parse(Http.responseText);
+		state = new gameState(3,4, deck);
 		deal(deck);
 	}
 }
@@ -26,7 +28,7 @@ function deal(deck)
 function draw(deck, pile)
 {
 	const Http = new XMLHttpRequest();
-	const url='https://deckofcardsapi.com/api/deck/' + deck.deck_id + '/draw/';
+	const url = 'https://deckofcardsapi.com/api/deck/' + deck.deck_id + '/draw/';
 	Http.open("GET", url);
 	Http.send();
 	Http.onreadystatechange = (e)=>
@@ -55,6 +57,7 @@ function addToPile(deck, pile, card)
 			node.classList.add("card");
 			node.height = document.getElementById("player1").height;
 			node.card = card;
+			node.id = card.code;
 			if(pile === 3)
 			{
 				node.onclick = selectCards;
@@ -96,13 +99,24 @@ function playerPlayCards()
 
 	let selecteds = document.getElementsByClassName("selected");
 	let cards = "";
-	for(var i = 0; i < selecteds.length; i++)
+	if(selecteds.length == document.getElementById("numberSelect").value)
 	{
-		cards += selecteds[i].card.code + ",";
-		document.getElementById("table").appendChild(selecteds[i]);
+		for(var i = 0; i < selecteds.length; i++)
+		{
+			cards += selecteds[i].card.code + ",";
+			document.getElementById("table").appendChild(selecteds[i]);
+		}
+		movePiles("lastPlayed", cards, function(){});
+		clearSelected();
+		let button = document.getElementById("submitButton");
+
+		button.disabled = true;
+		state.nextTurn();
 	}
-	movePiles("lastPlayed", cards, function(){});
-	clearSelected();
+	else
+	{
+		alert("Please select the correct number of cards (" + document.getElementById("numberSelect").value + ")");
+	}
 }
 
 function movePiles(pile, cards, callback)
@@ -137,7 +151,7 @@ function moveAllCards(pile1, pile2)
 			{
 				for(var i = 0; i < response.piles[pile1].cards.length; i++)
 				{
-					cards += response.piles[pile1].cards[i].code + ","
+					cards += response.piles[pile1].cards[i].code + ",";
 				}
 				movePiles(pile2, cards, function(){});
 			}
