@@ -3,22 +3,23 @@ class gameState
 	constructor(playerVal, players)
 	{
 		this.deck = deck;
-		this.turn = Math.floor(Math.random() * players);
+		this.turn = playerVal;//Math.floor(Math.random() * players);
 		this.players = players;
 		this.playerVal = playerVal;
 		this.lastPlayed = "";
-		this.cards = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+		this.cards = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 		this.currCard = 0;
 		this.bots = Array();
 		for(var i = 0; i < players -1; i++)
 		{
-			this.bots.push(new bsBot(i, deck));
+			this.bots.push(new bsBot(i, deck, this));
 		}
 	}
 	nextTurn()
 	{
 		this.turn = (this.turn+1) % this.players;
 		this.currCard = (this.currCard + 1) % this.cards.length;
+		console.log(this.turn);
 		document.getElementById("card").text = this.getCurrCard();
 		if(this.turn === this.playerVal)
 		{
@@ -27,11 +28,14 @@ class gameState
 		}
 		else
 		{
-			console.log(this.turn);
 			this.bots[this.turn].playTurn();
-			this.nextTurn();
+			let bsButtons = document.getElementsByClassName("bs");
+			for(var i = 0; i < bsButtons.length; i++)
+			{
+				bsButtons[i].disabled = false;
+			}
 		}
-	}
+	}	
 	getCurrCard()
 	{
 		return this.cards[this.currCard];

@@ -1,9 +1,10 @@
 class bsBot
 {
-	constructor(playerID)
+	constructor(playerID, state)
 	{
 		this.playerID = playerID;
 		this.deck = deck;
+		this.state = state;
 	}
 
 	playTurn()
@@ -11,6 +12,7 @@ class bsBot
 		moveAllCards("lastPlayed", "table");
 		let numCards = Math.floor((Math.random() * 4)) + 1;
 		this.playCards(numCards);
+		//alert("Player " + this.playerID + " has played " + numCards + " " + state.getCurrCard() + "'s.");
 
 	}
 
