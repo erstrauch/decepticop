@@ -106,6 +106,7 @@ function playerPlayCards()
 			cards += selecteds[i].card.code + ",";
 			document.getElementById("table").appendChild(selecteds[i]);
 		}
+		//document.getElementById("table").appendChild(document.createElement("br"));
 		movePiles("lastPlayed", cards, function(){});
 		clearSelected();
 		let button = document.getElementById("submitButton");
@@ -157,4 +158,65 @@ function moveAllCards(pile1, pile2)
 			}
 		}
 	}
+}
+
+function bs()
+{
+	let http = new XMLHttpRequest();
+	let url = "https://deckofcardsapi.com/api/deck/" + deck.deck_id + "/pile/lastPlayed/list/";
+	http.open("GET", url);
+	http.send();
+	http.onreadystatechange = (e)=>
+	{
+		if(http.readyState == 4 && http.status == 200) //allowed to go through twice???
+		{
+			let response = JSON.parse(http.responseText);
+			var cards = Array();
+			if(response.piles[state.turn] != undefined)
+			{
+				var bad = false;
+				for(var i = 0; i < response.piles["lastPlayed"].cards.length; i++)
+				{
+					cards.push(response.piles["lastPlayed"].cards[i].code);
+					if(!response.piles["lastPlayed"].cards[i].code.includes(state.getCurrCard()))
+					{
+						bad = true;
+					}
+				}
+				console.log(bad);
+				if(bad)
+				{
+					moveAllCards("lastPlayed", state.turn);
+					for(card in cards)
+					{
+						document.getElementById("player" + state.turn).appendChild(document.getElementById(cards[card]));
+					}
+				}
+				else
+				{
+					moveAllCards("lastPlayed", state.playerVal);
+					for(card in cards)
+					{
+						document.getElementById("player" + state.playerVal).appendChild(document.getElementById(cards[card]));
+					}
+				}
+			}
+			let bsButtons = document.getElementsByClassName("bs");
+			for(var i = 0; i < bsButtons.length; i++)
+			{
+				bsButtons[i].disabled = true;
+			}
+			state.nextTurn();
+		}
+	}
+}
+
+function ok()
+{
+	let bsButtons = document.getElementsByClassName("bs");
+	for(var i = 0; i < bsButtons.length; i++)
+	{
+		bsButtons[i].disabled = true;
+	}
+	state.nextTurn();
 }
