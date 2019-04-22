@@ -46,7 +46,43 @@ class bsBot
 							playCards += cards[state.getCurrCard()][i].code + ",";
 							table.appendChild(document.getElementById(cards[state.getCurrCard()][i].code));
 						}
-						movePiles("table", playCards, function(){});
+						console.log(playCards);
+						movePiles("lastPlayed", playCards, function(){});
+					}
+					else
+					{
+						let seed = Math.random();
+						var numCards = 1;
+						if(seed > .99)
+						{
+							numCards = 4;
+						}
+						if(seed > .95)
+						{
+							numCards = 3;
+						}
+						if(seed > .21)
+						{
+							numCards = 2;
+						}
+						console.log("numCards: " + numCards);
+						for(var i = 0; i < numCards; i++)
+						{
+							const Http = new XMLHttpRequest();
+							const url = "https://deckofcardsapi.com/api/deck/" + deck.deck_id + "/pile/" + this.playerID + "/draw/";
+							Http.open("GET", url);
+							Http.send();
+							Http.onreadystatechange = (e)=>
+							{
+								if(Http.readyState == 4 && Http.status == 200)
+								{
+									let response = JSON.parse(Http.responseText);
+									var cards = response.cards[0].code + ",";
+									document.getElementById("table").appendChild(document.getElementById(response.cards[0].code));
+									movePiles("lastPlayed", cards, function(){});
+								}
+							}
+						}
 					}
 				}
 			}

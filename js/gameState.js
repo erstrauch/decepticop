@@ -17,9 +17,10 @@ class gameState
 	}
 	nextTurn()
 	{
+		document.getElementById("player" + this.turn).style.backgroundColor = "white";
 		this.turn = (this.turn+1) % this.players;
 		this.currCard = (this.currCard + 1) % this.cards.length;
-		console.log(this.turn);
+		document.getElementById("player" + this.turn).style.backgroundColor = "red";
 		document.getElementById("card").text = this.getCurrCard();
 		if(this.turn === this.playerVal)
 		{
@@ -29,6 +30,7 @@ class gameState
 		else
 		{
 			this.bots[this.turn].playTurn();
+			document.getElementById("table").appendChild(document.createElement("br"));
 			let bsButtons = document.getElementsByClassName("bs");
 			for(var i = 0; i < bsButtons.length; i++)
 			{
