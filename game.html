@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>BS - Play!</title>
+    <link rel="stylesheet" type="text/css" href="./css/game.css">
+    <script src="./js/bsbot.js"></script>
+    <script src="./js/gameState.js"></script>
+    <script src="./js/game.js"></script>
+</head>
+<body>
+    <div id = "player0"></div>
+    <div id = "rotated">
+        <div id = "player1"></div>
+        <div id = "table">
+            <button id = "startGame" onclick="startGame();">Start Game!</button>
+        </div>
+        <div id = "player2"></div>
+    </div>
+    <div id = "playerBox">
+        <select id = "numberSelect" onchange="clearSelected();">
+            <option value = "1">1</option>
+            <option value = "2">2</option>
+            <option value = "3">3</option>
+            <option value = "4">4</option>
+        </select>
+        <a id = "card">A</a>
+        <button id = "submitButton" class = "playerButton" onclick = "  playerPlayCards();">Submit</button>
+        <button disabled = "true" class = "playerButton bs" onclick = "bs();">BS!</button>
+        <button disabled = "true" class = "playerButton bs" onclick = "ok();">Ok!</button>
+    </div>
+    <div id = "player3"></div>
+</body>
