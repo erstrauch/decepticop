@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>BS - Terms and Conditions</title>
+    <link rel="stylesheet" type="text/css" href="./css/agreement.css">
+    <script src="./js/agreement.js"></script>
+</head>
+
+<body>
+    <h1>Consent Form</h1>
+    <div id="consentText">
+        <p>In this study, you will be playing a game of ‘BS’ with computers. This study is meant to address health concerns such as stress and cardiovascular issues through heart rate in online gaming. We will be using imaging software in order to detect heart rate. Video feed of you will be collected as well as some miscellaneous information at the end. Participation is voluntary and can be stopped at any point if you wish.</p>
+
+        <p>Do you accept the above terms and conditions?</p>
+    </div>
+    <div id = "acceptForm">
+    	<input class = "accept" type = "radio" name ="accept" value = "accept">I accept<br>
+    	<input class = "accept selected" type = "radio" name ="accept" value = "reject" checked = "checked">I do not accept <br>
+    	<button id = "submitButton" onclick="setAgreement();">Start Game</button>
+    </div>
+    <script>
+    	let acceptValues = document.getElementsByClassName("accept");
+		for(let i = 0; i < acceptValues.length; i++)
+		{
+			acceptValues[i].onclick = setSelected;
+		}
+    </script>
+</body>
