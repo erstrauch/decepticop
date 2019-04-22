@@ -3,6 +3,7 @@ function setAgreement()
 {
 	let acceptVal = document.getElementsByClassName("selected")[0];
 	window.localStorage.setItem("bs-accept-value", acceptVal.value);
+	window.location.href = "./game.html";	
 }
 
 function setSelected(e)
