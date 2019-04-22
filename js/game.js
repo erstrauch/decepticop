@@ -63,10 +63,7 @@ function addToPile(deck, pile, card)
 			node.height = document.getElementById("player1").height;
 			node.card = card;
 			node.id = card.code;
-			if(pile === 3)
-			{
-				node.onclick = selectCards;
-			}
+			node.onclick = selectCards;
 			document.getElementById("player" + pile).appendChild(node);
 		}
 	}
@@ -74,17 +71,20 @@ function addToPile(deck, pile, card)
 
 function selectCards()
 {
-	if(this.classList.contains("selected"))
+	if(this.parentNode.id == state.playerVal);
 	{
-		this.classList.remove("selected");
-	}
-	else
-	{
-		let selecteds = document.getElementsByClassName("selected").length;
-		let maxSelect = document.getElementById("numberSelect").value;
-		if(selecteds < maxSelect)
+		if(this.classList.contains("selected"))
 		{
-			this.classList.add("selected");
+			this.classList.remove("selected");
+		}
+		else
+		{
+			let selecteds = document.getElementsByClassName("selected").length;
+			let maxSelect = document.getElementById("numberSelect").value;
+			if(selecteds < maxSelect)
+			{
+				this.classList.add("selected");
+			}
 		}
 	}
 }
