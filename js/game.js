@@ -158,10 +158,13 @@ function playerPlayCards()
 		var myList = document.getElementById("table").childNodes;
 		if(myList != null){
 			for(var i = 0; i < myList.length; i++){
-				myList[i].hidden = 'true';
+				myList[i].hidden = true;
 			}
 		}
 		
+		var count = document.getElementById("table").childNodes.length +selecteds.length -3;
+		document.getElementById("card-count").innerText = "Pile has "+count+" cards";
+	
 		for(var i = 0; i < selecteds.length; i++)
 		{
 			cards += selecteds[i].card.code + ",";
@@ -248,12 +251,10 @@ function bs()
 			let response = JSON.parse(http.responseText);
 			var cards = Array();
 			//make table cards visible again
-			var myList = document.getElementById("table").childNodes;
+			var myList = document.getElementsByClassName("card");
 			for(var i = 0; i < myList.length; i++){
-				if(myList[i].class == 'card') {
-					myList[i].hidden = 'false';
+					myList[i].hidden = false;
 					console.log(myList[i]);
-				}
 			}
 			if(response.piles[state.turn] != undefined)
 			{
