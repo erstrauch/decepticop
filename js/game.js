@@ -48,6 +48,44 @@ function emptyPiles(deck){
 
 }
 
+//doesn't work
+function emptyPiles(deck){
+
+	for(i in state.players){
+		var myNode = document.getElementById("player"+i);
+		while(myNode.lastChild){
+			myNode.removeChild(myNode.lastChild);
+		}
+		console.log("made it");
+	}
+	// var myNode = document.getElementById("player"+playerVal);
+	// while(myNode.lastChild){
+	// 	myNode.removeChild(myNode.lastChild);
+	// }
+
+	//Console.log("made it 2");
+
+}
+
+//doesn't work
+function emptyPiles(deck){
+
+	for(i in state.players){
+		var myNode = document.getElementById("player"+i);
+		while(myNode.lastChild){
+			myNode.removeChild(myNode.lastChild);
+		}
+		console.log("made it");
+	}
+	// var myNode = document.getElementById("player"+playerVal);
+	// while(myNode.lastChild){
+	// 	myNode.removeChild(myNode.lastChild);
+	// }
+
+	//Console.log("made it 2");
+
+}
+
 function deal(deck)
 {
 	for(let i = 0; i < 13; i++)
