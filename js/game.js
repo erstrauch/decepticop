@@ -153,6 +153,20 @@ function moveAllCards(pile1, pile2)
 				for(var i = 0; i < response.piles[pile1].cards.length; i++)
 				{
 					cards += response.piles[pile1].cards[i].code + ",";
+					if(pile2 != "table" && pile2 != "lastPlayed")
+					{
+						try
+						{
+							document.getElementById("player" + pile2).appendChild(document.getElementById(response.piles[pile1].cards[i].code));
+						}
+						catch(err)
+						{
+							console.log(err);
+							console.log(document.getElementById("player" + pile2));
+							console.log(pile2);
+							console.log(document.getElementById(response.piles[pile1].cards[i].code));
+						}
+					}
 				}
 				movePiles(pile2, cards, function(){});
 			}
@@ -177,26 +191,30 @@ function bs()
 				var bad = false;
 				for(var i = 0; i < response.piles["lastPlayed"].cards.length; i++)
 				{
-					cards.push(response.piles["lastPlayed"].cards[i].value);
-					if(!response.piles["lastPlayed"].cards[i].value === state.getCurrCard())
+					cards.push(response.piles["lastPlayed"].cards[i]);
+					if(response.piles["lastPlayed"].cards[i].value !== state.getCurrCard())
 					{
 						bad = true;
+						break;
 					}
 				}
+				console.log(bad);
 				if(bad)
 				{
 					moveAllCards("lastPlayed", state.turn);
+					moveAllCards("table", state.turn);
 					for(card in cards)
 					{
-						document.getElementById("player" + state.turn).appendChild(document.getElementById(cards[card]));
+						document.getElementById("player" + state.turn).appendChild(document.getElementById(cards[card].code));
 					}
 				}
 				else
 				{
 					moveAllCards("lastPlayed", state.playerVal);
+					moveAllCards("table", state.playerVal);
 					for(card in cards)
 					{
-						document.getElementById("player" + state.playerVal).appendChild(document.getElementById(cards[card]));
+						document.getElementById("player" + state.playerVal).appendChild(document.getElementById(cards[card].code));
 					}
 				}
 			}
