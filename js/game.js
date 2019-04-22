@@ -149,7 +149,6 @@ function clearSelected()
 function playerPlayCards()
 {
 	moveAllCards("lastPlayed", "table");
-
 	let selecteds = document.getElementsByClassName("selected");
 	let cards = "";
 	if(selecteds.length == document.getElementById("numberSelect").value)
@@ -160,19 +159,21 @@ function playerPlayCards()
 			for(var i = 0; i < myList.length; i++){
 				myList[i].hidden = 'true';
 			}
-		}
-		
+		}	
 		for(var i = 0; i < selecteds.length; i++)
 		{
 			cards += selecteds[i].card.code + ",";
 			document.getElementById("table").appendChild(selecteds[i]);
 		}
-		//document.getElementById("table").appendChild(document.createElement("br"));
 		movePiles("lastPlayed", cards, function(){});
 		clearSelected();
 		let button = document.getElementById("submitButton");
 
 		button.disabled = true;
+		for(var i = 0; i < state.bots.length-1; i++)
+		{
+			state.bots[i].checkHand(document.getElementById("numberSelect").value);
+		}
 		state.nextTurn();
 	}
 	else
