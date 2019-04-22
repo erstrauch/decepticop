@@ -1,16 +1,21 @@
 let state = null;
 let deck = null;
-const Http = new XMLHttpRequest();
-const url='https://deckofcardsapi.com/api/deck/new/shuffle/';
-Http.open("GET", url);
-Http.send();
-Http.onreadystatechange = (e)=>
+newGame();
+
+function newGame()
 {
-	if(Http.readyState == 4 && Http.status == 200)
+	const Http = new XMLHttpRequest();
+	const url='https://deckofcardsapi.com/api/deck/new/shuffle/';
+	Http.open("GET", url);
+	Http.send();
+	Http.onreadystatechange = (e)=>
 	{
-		deck = JSON.parse(Http.responseText);
-		state = new gameState(3,4, deck);
-		deal(deck);
+		if(Http.readyState == 4 && Http.status == 200)
+		{
+			deck = JSON.parse(Http.responseText);
+			state = new gameState(3,4, deck);
+			deal(deck);
+		}
 	}
 }
 

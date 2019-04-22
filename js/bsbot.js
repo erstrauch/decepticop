@@ -46,7 +46,6 @@ class bsBot
 							playCards += cards[state.getCurrCard()][i].code + ",";
 							table.appendChild(document.getElementById(cards[state.getCurrCard()][i].code));
 						}
-						console.log(playCards);
 						movePiles("lastPlayed", playCards, function(){});
 					}
 					else
@@ -65,7 +64,6 @@ class bsBot
 						{
 							numCards = 2;
 						}
-						console.log("numCards: " + numCards);
 						for(var i = 0; i < numCards; i++)
 						{
 							const Http = new XMLHttpRequest();
