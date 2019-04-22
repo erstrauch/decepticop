@@ -177,13 +177,12 @@ function bs()
 				var bad = false;
 				for(var i = 0; i < response.piles["lastPlayed"].cards.length; i++)
 				{
-					cards.push(response.piles["lastPlayed"].cards[i].code);
-					if(!response.piles["lastPlayed"].cards[i].code.includes(state.getCurrCard()))
+					cards.push(response.piles["lastPlayed"].cards[i].value);
+					if(!response.piles["lastPlayed"].cards[i].value === state.getCurrCard())
 					{
 						bad = true;
 					}
 				}
-				console.log(bad);
 				if(bad)
 				{
 					moveAllCards("lastPlayed", state.turn);
@@ -219,4 +218,10 @@ function ok()
 		bsButtons[i].disabled = true;
 	}
 	state.nextTurn();
+}
+
+function startGame()
+{
+	state.nextTurn();
+	document.getElementById("startGame").style.display = "none";
 }
