@@ -26,6 +26,10 @@ body
 	margin-left: 7%;
 	background-color: green;
 }
+#card-count
+{
+	text-align: center;
+}
 #table{	
 	position: absolute;
 	left: 50%;
