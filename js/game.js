@@ -4,6 +4,7 @@ newGame();
 
 function newGame()
 {
+
 	const Http = new XMLHttpRequest();
 	const url='https://deckofcardsapi.com/api/deck/new/shuffle/';
 	Http.open("GET", url);
@@ -12,11 +13,39 @@ function newGame()
 	{
 		if(Http.readyState == 4 && Http.status == 200)
 		{
+
+			if(deck != null){
+				emptyPiles(deck);
+				console.log("made it 3");
+
+			}
+		
 			deck = JSON.parse(Http.responseText);
 			state = new gameState(3,4, deck);
 			deal(deck);
+			console.log("made it 4");
+
 		}
 	}
+}
+
+//doesn't work
+function emptyPiles(deck){
+
+	for(i in state.players){
+		var myNode = document.getElementById("player"+i);
+		while(myNode.lastChild){
+			myNode.removeChild(myNode.lastChild);
+		}
+		console.log("made it");
+	}
+	// var myNode = document.getElementById("player"+playerVal);
+	// while(myNode.lastChild){
+	// 	myNode.removeChild(myNode.lastChild);
+	// }
+
+	//Console.log("made it 2");
+
 }
 
 function deal(deck)
@@ -106,6 +135,14 @@ function playerPlayCards()
 	let cards = "";
 	if(selecteds.length == document.getElementById("numberSelect").value)
 	{
+		//hides previously played cards from display
+		var myList = document.getElementById("table").childNodes;
+		if(myList != null){
+			for(var i = 0; i < myList.length; i++){
+				myList[i].hidden = 'true';
+			}
+		}
+		
 		for(var i = 0; i < selecteds.length; i++)
 		{
 			cards += selecteds[i].card.code + ",";
@@ -191,6 +228,14 @@ function bs()
 		{
 			let response = JSON.parse(http.responseText);
 			var cards = Array();
+			//make table cards visible again
+			var myList = document.getElementById("table").childNodes;
+			for(var i = 0; i < myList.length; i++){
+				if(myList[i].class == 'card') {
+					myList[i].hidden = 'false';
+					console.log(myList[i]);
+				}
+			}
 			if(response.piles[state.turn] != undefined)
 			{
 				var bad = false;
@@ -204,6 +249,7 @@ function bs()
 					}
 				}
 				console.log(bad);
+				
 				if(bad)
 				{
 					moveAllCards("lastPlayed", state.turn);
