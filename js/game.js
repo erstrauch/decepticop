@@ -206,7 +206,7 @@ function bs()
 	http.send();
 	http.onreadystatechange = (e)=>
 	{
-		if(http.readyState == 4 && http.status == 200) //allowed to go through twice???
+		if(http.readyState == 4 && http.status == 200)
 		{
 			let response = JSON.parse(http.responseText);
 			var cards = Array();
