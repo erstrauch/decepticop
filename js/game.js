@@ -12,41 +12,15 @@ function newGame()
 	Http.onreadystatechange = (e)=>
 	{
 		if(Http.readyState == 4 && Http.status == 200)
-		{
-
-			if(deck != null){
-				emptyPiles(deck);
-				console.log("made it 3");
-
-			}
-		
+		{		
 			deck = JSON.parse(Http.responseText);
 			state = new gameState(3,4, deck);
 			deal(deck);
 			console.log("made it 4");
-
 		}
 	}
 }
 
-//doesn't work
-function emptyPiles(deck){
-
-	for(i in state.players){
-		var myNode = document.getElementById("player"+i);
-		while(myNode.lastChild){
-			myNode.removeChild(myNode.lastChild);
-		}
-		console.log("made it");
-	}
-	// var myNode = document.getElementById("player"+playerVal);
-	// while(myNode.lastChild){
-	// 	myNode.removeChild(myNode.lastChild);
-	// }
-
-	//Console.log("made it 2");
-
-}
 
 //doesn't work
 function emptyPiles(deck){
