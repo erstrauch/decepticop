@@ -80,22 +80,20 @@ class gameState
 				if(response.piles[tempTurn].remaining == 0)
 				{
 					document.getElementById("table").innerHTML = "";
+					document.getElementById("player0").innerHTML = "";
 					document.getElementById("player1").innerHTML = "";
 					document.getElementById("player2").innerHTML = "";
 					document.getElementById("player3").innerHTML = "";
-					document.getElementById("player4").innerHTML = "";
 
 					if(tempTurn !== this.playerVal)
 					{
 						alert("Player " + tempTurn + " has won the game!");
-						//newGame();
 					}
 					else
 					{
 						alert("You have won the game!");
-						//newGame();
 					}
-					window.href = "https://forms.gle/KxW74dF53hBuoiZe9";
+					window.location.href = "https://forms.gle/KxW74dF53hBuoiZe9";
 				}
 			}
 		}
