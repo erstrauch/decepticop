@@ -92,7 +92,7 @@ class bsBot
 						{
 							numCards = 3;
 						}
-						if(seed > .21)
+						if(seed > .75)
 						{
 							numCards = 2;
 						}

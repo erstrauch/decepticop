@@ -174,7 +174,8 @@ function playerPlayCards()
 		{
 			state.bots[i].checkHand(document.getElementById("numberSelect").value);
 		}
-		state.nextTurn();
+
+		setTimeout(state.nextTurn(), 2000);
 	}
 	else
 	{
