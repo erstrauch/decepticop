@@ -22,44 +22,6 @@ function newGame()
 }
 
 
-//doesn't work
-function emptyPiles(deck){
-
-	for(i in state.players){
-		var myNode = document.getElementById("player"+i);
-		while(myNode.lastChild){
-			myNode.removeChild(myNode.lastChild);
-		}
-		console.log("made it");
-	}
-	// var myNode = document.getElementById("player"+playerVal);
-	// while(myNode.lastChild){
-	// 	myNode.removeChild(myNode.lastChild);
-	// }
-
-	//Console.log("made it 2");
-
-}
-
-//doesn't work
-function emptyPiles(deck){
-
-	for(i in state.players){
-		var myNode = document.getElementById("player"+i);
-		while(myNode.lastChild){
-			myNode.removeChild(myNode.lastChild);
-		}
-		console.log("made it");
-	}
-	// var myNode = document.getElementById("player"+playerVal);
-	// while(myNode.lastChild){
-	// 	myNode.removeChild(myNode.lastChild);
-	// }
-
-	//Console.log("made it 2");
-
-}
-
 function deal(deck)
 {
 	for(let i = 0; i < 13; i++)
@@ -99,12 +61,19 @@ function addToPile(deck, pile, card)
 		if(Http.readyState == 4 && Http.status == 200)
 		{
 			let node = document.createElement("img");
-			node.src = card.image;
 			node.classList.add("card");
 			node.height = document.getElementById("player1").height;
 			node.card = card;
 			node.id = card.code;
 			node.onclick = selectCards;
+			if(pile == state.playerVal)
+			{
+				node.src = card.image;
+			}
+			else
+			{
+				node.src = "./img/card-back.png";
+			}
 			document.getElementById("player" + pile).appendChild(node);
 		}
 	}
@@ -152,6 +121,7 @@ function playerPlayCards()
 		if(myList != null){
 			for(var i = 0; i < myList.length; i++){
 				myList[i].hidden = true;
+				myList[i].src = "./img/card-back.png";
 			}
 		}
 		
@@ -163,7 +133,6 @@ function playerPlayCards()
 			cards += selecteds[i].card.code + ",";
 			document.getElementById("table").appendChild(selecteds[i]);
 		}
-		//document.getElementById("table").appendChild(document.createElement("br"));
 		movePiles("lastPlayed", cards, function(){});
 		clearSelected();
 		let button = document.getElementById("submitButton");
@@ -212,17 +181,7 @@ function moveAllCards(pile1, pile2)
 					cards += response.piles[pile1].cards[i].code + ",";
 					if(pile2 != "table" && pile2 != "lastPlayed")
 					{
-						try
-						{
-							document.getElementById("player" + pile2).appendChild(document.getElementById(response.piles[pile1].cards[i].code));
-						}
-						catch(err)
-						{
-							console.log(err);
-							console.log(document.getElementById("player" + pile2));
-							console.log(pile2);
-							console.log(document.getElementById(response.piles[pile1].cards[i].code));
-						}
+						document.getElementById("player" + pile2).appendChild(document.getElementById(response.piles[pile1].cards[i].code));
 					}
 				}
 				movePiles(pile2, cards, function(){});
@@ -261,8 +220,6 @@ function bs()
 						break;
 					}
 				}
-				console.log(bad);
-				
 				if(bad)
 				{
 					moveAllCards("lastPlayed", state.turn);

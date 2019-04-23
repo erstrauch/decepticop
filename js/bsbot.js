@@ -19,8 +19,6 @@ class bsBot
 
 		moveAllCards("lastPlayed", "table");
 		this.playCards();
-		//alert("Player " + this.playerID + " has played " + numCards + " " + state.getCurrCard() + "'s.");
-
 	}
 
 	playCards()
