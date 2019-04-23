@@ -64,15 +64,14 @@ function addToPile(deck, pile, card)
 			node.card = card;
 			node.id = card.code;
 			node.onclick = selectCards;
-			// if(pile == state.playerVal)
-			// {
-			// 	node.src = card.image;
-			// }
-			// else
-			// {
-			// 	node.src = "./img/card-back.png";
-			// }
-			node.src = card.image;
+			if(pile == state.playerVal)
+			{
+				node.src = card.image;
+			}
+			else
+			{
+				node.src = "./img/card-back.png";
+			}
 			document.getElementById("player" + pile).appendChild(node);
 		}
 	}
@@ -131,6 +130,7 @@ function playerPlayCards()
 		for(var i = 0; i < selecteds.length; i++)
 		{
 			cards += selecteds[i].card.code + ",";
+			selecteds[i].src = "./img/card-back.png";
 			document.getElementById("table").appendChild(selecteds[i]);
 		}
 		movePiles("lastPlayed", cards, function(){});
@@ -159,9 +159,6 @@ function playerPlayCards()
 				state.nextTurn();
 			}
 		}, 2500);
-
-
-
 	}
 	else
 	{
@@ -184,7 +181,7 @@ function movePiles(pile, cards, callback)
 	}
 }
 
-function moveAllCards(pile1, pile2)
+function moveAllCards(pile1, pile2, callback = function(){})
 {
 	const Http = new XMLHttpRequest();
 	// create query string for the card
@@ -217,7 +214,7 @@ function moveAllCards(pile1, pile2)
 						}
 					}
 				}
-				movePiles(pile2, cards, function(){});
+				movePiles(pile2, cards, callback);
 			}
 		}
 	}
@@ -251,6 +248,7 @@ function bs()
 						bad = true;
 					}
 				}
+				console.log(bad);
 				if(bad)
 				{
 					moveAllCards("lastPlayed", state.turn);
@@ -262,8 +260,26 @@ function bs()
 				}
 				else
 				{
-					moveAllCards("lastPlayed", state.playerVal);
-					moveAllCards("table", state.playerVal);
+					moveAllCards("lastPlayed", state.playerVal, function(){
+							var tableCards = document.getElementById("player3").childNodes;
+							for(var i = 0; i < tableCards.length; i++)
+							{
+								if(tableCards[i].card != undefined)
+								{
+									tableCards[i].src = tableCards[i].card.image;
+								}
+							}
+					});
+					moveAllCards("table", state.playerVal, function(){
+							var tableCards = document.getElementById("player3").childNodes;
+							for(var i = 0; i < tableCards.length; i++)
+							{
+								if(tableCards[i].card != undefined)
+								{
+									tableCards[i].src = tableCards[i].card.image;
+								}
+							}
+					});
 					for(card in cards)
 					{
 						document.getElementById("player" + state.playerVal).appendChild(document.getElementById(cards[card].code));
@@ -277,7 +293,6 @@ function bs()
 				bsButtons[i].disabled = true;
 			}
 			setTimeout(state.nextTurn(), 1000);
-			//state.nextTurn();
 		}
 	}
 }
@@ -290,7 +305,6 @@ function ok()
 		bsButtons[i].disabled = true;
 	}
 	setTimeout(state.nextTurn(), 1000);
-	//state.nextTurn();
 }
 
 function startGame()
