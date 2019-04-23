@@ -124,7 +124,7 @@ function playerPlayCards()
 		
 		var count = document.getElementById("table").childNodes.length + selecteds.length - 3;
 		document.getElementById("card-count").innerText = "Pile has "+count+" cards";
-		document.getElementById("last-played").innerText = "You have played " + selecteds.length + " " + state.getCurrCard() + "(s)";
+		document.getElementById("last-played").innerText = "You played " + selecteds.length + " " + state.getCurrCard() + "(s)";
 
 
 		for(var i = 0; i < selecteds.length; i++)

@@ -93,7 +93,7 @@ class bsBot
 							playCards += cards[state.getCurrCard()][i].code + ",";
 							table.appendChild(document.getElementById(cards[state.getCurrCard()][i].code));
 						}
-						document.getElementById("last-played").innerText = "Player " + (this.playerID+1) + " has played " + cards[state.getCurrCard()].length + " " + state.getCurrCard() + "(s)";
+						document.getElementById("last-played").innerText = "Player " + (this.playerID+1) + " played " + cards[state.getCurrCard()].length + " " + state.getCurrCard() + "(s)";
 						movePiles("lastPlayed", playCards, function(){});
 					}
 					else
@@ -114,7 +114,7 @@ class bsBot
 						}
 						var count = document.getElementById("table").childNodes.length +numCards -3;
 						document.getElementById("card-count").innerText = "Pile has "+count+" cards";
-						document.getElementById("last-played").innerText = "Player " + (this.playerID+1) + " has played " + numCards + " " + state.getCurrCard() + "(s)";					
+						document.getElementById("last-played").innerText = "Player " + (this.playerID+1) + " played " + numCards + " " + state.getCurrCard() + "(s)";					
 						for(var i = 0; i < numCards; i++)
 						{
 							const Http = new XMLHttpRequest();
