@@ -9,6 +9,14 @@ class bsBot
 
 	playTurn()
 	{
+		//hides previously played cards from display
+		var myList = document.getElementById("table").childNodes;
+		if(myList != null){
+			for(var i = 0; i < myList.length; i++){
+				myList[i].hidden = true;
+			}
+		}
+
 		moveAllCards("lastPlayed", "table");
 		this.playCards();
 		//alert("Player " + this.playerID + " has played " + numCards + " " + state.getCurrCard() + "'s.");
@@ -73,6 +81,8 @@ class bsBot
 					{
 						var playCards = "";
 						let table = document.getElementById("table");
+						var count = document.getElementById("table").childNodes.length +cards[state.getCurrCard()].length -3;
+						document.getElementById("card-count").innerText = "Pile has "+count+" cards";					
 						for(var i = 0; i < cards[state.getCurrCard()].length; i++)
 						{
 							playCards += cards[state.getCurrCard()][i].code + ",";
@@ -96,6 +106,8 @@ class bsBot
 						{
 							numCards = 2;
 						}
+						var count = document.getElementById("table").childNodes.length +numCards -3;
+						document.getElementById("card-count").innerText = "Pile has "+count+" cards";					
 						for(var i = 0; i < numCards; i++)
 						{
 							const Http = new XMLHttpRequest();

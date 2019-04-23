@@ -21,8 +21,9 @@ class gameState
 		document.getElementById("player" + this.turn).style.backgroundColor = "white";
 		this.turn = (this.turn+1) % this.players;
 		this.currCard = (this.currCard + 1) % this.cards.length;
-		document.getElementById("player" + this.turn).style.backgroundColor = "blue";	//allows selected box to be seen
+		document.getElementById("player" + this.turn).style.backgroundColor = "blue";	//blue allows selected box to be seen
 		document.getElementById("card").text = this.getCurrCard();
+	
 		if(this.turn === this.playerVal)
 		{
 			let button = document.getElementById("submitButton");
