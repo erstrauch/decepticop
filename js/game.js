@@ -4,7 +4,6 @@ newGame();
 
 function newGame()
 {
-
 	const Http = new XMLHttpRequest();
 	const url='https://deckofcardsapi.com/api/deck/new/shuffle/';
 	Http.open("GET", url);
@@ -13,39 +12,11 @@ function newGame()
 	{
 		if(Http.readyState == 4 && Http.status == 200)
 		{
-
-			if(deck != null){
-				emptyPiles(deck);
-				console.log("made it 3");
-
-			}
-		
 			deck = JSON.parse(Http.responseText);
 			state = new gameState(3,4, deck);
 			deal(deck);
-			console.log("made it 4");
-
 		}
 	}
-}
-
-//doesn't work
-function emptyPiles(deck){
-
-	for(i in state.players){
-		var myNode = document.getElementById("player"+i);
-		while(myNode.lastChild){
-			myNode.removeChild(myNode.lastChild);
-		}
-		console.log("made it");
-	}
-	// var myNode = document.getElementById("player"+playerVal);
-	// while(myNode.lastChild){
-	// 	myNode.removeChild(myNode.lastChild);
-	// }
-
-	//Console.log("made it 2");
-
 }
 
 function deal(deck)
@@ -87,12 +58,19 @@ function addToPile(deck, pile, card)
 		if(Http.readyState == 4 && Http.status == 200)
 		{
 			let node = document.createElement("img");
-			node.src = card.image;
 			node.classList.add("card");
 			node.height = document.getElementById("player1").height;
 			node.card = card;
 			node.id = card.code;
 			node.onclick = selectCards;
+			if(pile == state.playerVal)
+			{
+				node.src = card.image;
+			}
+			else
+			{
+				node.src = "./img/card-back.png";
+			}
 			document.getElementById("player" + pile).appendChild(node);
 		}
 	}
