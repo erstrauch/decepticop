@@ -58,12 +58,21 @@ function addToPile(deck, pile, card)
 		if(Http.readyState == 4 && Http.status == 200)
 		{
 			let node = document.createElement("img");
+
 			node.src = card.image;
 			node.classList.add("card");
 			node.height = document.getElementById("player1").height;
 			node.card = card;
 			node.id = card.code;
 			node.onclick = selectCards;
+			if(pile == state.playerVal)
+			{
+				node.src = card.image;
+			}
+			else
+			{
+				node.src = "./img/card-back.png";
+			}
 			document.getElementById("player" + pile).appendChild(node);
 		}
 	}
@@ -101,23 +110,33 @@ function clearSelected()
 function playerPlayCards()
 {
 	moveAllCards("lastPlayed", "table");
-
 	let selecteds = document.getElementsByClassName("selected");
 	let cards = "";
 	if(selecteds.length == document.getElementById("numberSelect").value)
 	{
+		//hides previously played cards from display
+		var myList = document.getElementById("table").childNodes;
+		if(myList != null){
+			for(var i = 0; i < myList.length; i++){
+				myList[i].hidden = 'true';
+			}
+		}	
 		for(var i = 0; i < selecteds.length; i++)
 		{
 			cards += selecteds[i].card.code + ",";
 			document.getElementById("table").appendChild(selecteds[i]);
 		}
-		//document.getElementById("table").appendChild(document.createElement("br"));
 		movePiles("lastPlayed", cards, function(){});
 		clearSelected();
 		let button = document.getElementById("submitButton");
 
 		button.disabled = true;
-		state.nextTurn();
+		for(var i = 0; i < state.bots.length-1; i++)
+		{
+			state.bots[i].checkHand(document.getElementById("numberSelect").value);
+		}
+
+		setTimeout(state.nextTurn(), 2000);
 	}
 	else
 	{
@@ -187,10 +206,18 @@ function bs()
 	http.send();
 	http.onreadystatechange = (e)=>
 	{
-		if(http.readyState == 4 && http.status == 200) //allowed to go through twice???
+		if(http.readyState == 4 && http.status == 200)
 		{
 			let response = JSON.parse(http.responseText);
 			var cards = Array();
+			//make table cards visible again
+			var myList = document.getElementById("table").childNodes;
+			for(var i = 0; i < myList.length; i++){
+				if(myList[i].class == 'card') {
+					myList[i].hidden = 'false';
+					console.log(myList[i]);
+				}
+			}
 			if(response.piles[state.turn] != undefined)
 			{
 				var bad = false;
@@ -204,6 +231,7 @@ function bs()
 					}
 				}
 				console.log(bad);
+				
 				if(bad)
 				{
 					moveAllCards("lastPlayed", state.turn);

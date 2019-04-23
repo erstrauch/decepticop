@@ -21,22 +21,31 @@ class gameState
 		document.getElementById("player" + this.turn).style.backgroundColor = "white";
 		this.turn = (this.turn+1) % this.players;
 		this.currCard = (this.currCard + 1) % this.cards.length;
-		document.getElementById("player" + this.turn).style.backgroundColor = "red";
+		document.getElementById("player" + this.turn).style.backgroundColor = "blue";	//allows selected box to be seen
 		document.getElementById("card").text = this.getCurrCard();
 		if(this.turn === this.playerVal)
 		{
 			let button = document.getElementById("submitButton");
 			button.disabled = false;
+
+			let bsButtons = document.getElementsByClassName("bs"); //duplicating fixes beginning of game issue
+			for(var i = 0; i < bsButtons.length; i++)
+			{
+				bsButtons[i].disabled = true;
+			}
 		}
 		else
 		{
 			this.bots[this.turn].playTurn();
-			document.getElementById("table").appendChild(document.createElement("br"));
+			//document.getElementById("table").appendChild(document.createElement("br"));
 			let bsButtons = document.getElementsByClassName("bs");
 			for(var i = 0; i < bsButtons.length; i++)
 			{
 				bsButtons[i].disabled = false;
 			}
+
+			let button = document.getElementById("submitButton");	//duplicating fixes beginning of game issue
+			button.disabled = true;
 		}
 	}	
 	getCurrCard()
@@ -58,16 +67,22 @@ class gameState
 				if(response.piles[tempTurn].remaining == 0)
 				{
 					document.getElementById("table").innerHTML = "";
+					document.getElementById("player1").innerHTML = "";
+					document.getElementById("player2").innerHTML = "";
+					document.getElementById("player3").innerHTML = "";
+					document.getElementById("player4").innerHTML = "";
+
 					if(tempTurn !== this.playerVal)
 					{
 						alert("Player " + tempTurn + " has won the game!");
-						newGame();
+						//newGame();
 					}
 					else
 					{
 						alert("You have won the game!");
-						newGame();
+						//newGame();
 					}
+					window.href = "https://forms.gle/KxW74dF53hBuoiZe9";
 				}
 			}
 		}
