@@ -17,6 +17,7 @@
             <div id = "table">
                 <button id = "startGame" onclick="startGame();">Start Game!</button>
             </div>
+            <h1 id = "last-played"></h1>
         </div>
         <div id = "player2"></div>
     </div>
@@ -28,7 +29,7 @@
             <option value = "4">4</option>
         </select>
         <a id = "card">Ace</a>
-        <button id = "submitButton" class = "playerButton" onclick = "  playerPlayCards();">Submit</button>
+        <button id = "submitButton" disabled = "true" class = "playerButton" onclick = "  playerPlayCards();">Submit</button>
         <button disabled = "true" class = "playerButton bs" onclick = "bs();">BS!</button>
         <button disabled = "true" class = "playerButton bs" onclick = "ok();">Ok!</button>
     </div>
