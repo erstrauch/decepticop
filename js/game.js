@@ -43,6 +43,11 @@ function draw(deck, pile)
 			addToPile(deck,pile,card.cards[0]);
 		}
 	}
+	let bsButtons = document.getElementsByClassName("bs");
+	for(var i = 0; i < bsButtons.length; i++)
+	{
+		bsButtons[i].disabled = true;
+	}
 }
 
 function addToPile(deck, pile, card)
@@ -312,3 +317,4 @@ function startGame()
 	state.nextTurn();
 	document.getElementById("startGame").style.display = "none";
 }
+
