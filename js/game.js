@@ -4,7 +4,6 @@ newGame();
 
 function newGame()
 {
-
 	const Http = new XMLHttpRequest();
 	const url='https://deckofcardsapi.com/api/deck/new/shuffle/';
 	Http.open("GET", url);
@@ -12,52 +11,12 @@ function newGame()
 	Http.onreadystatechange = (e)=>
 	{
 		if(Http.readyState == 4 && Http.status == 200)
-		{		
+		{
 			deck = JSON.parse(Http.responseText);
 			state = new gameState(3,4, deck);
 			deal(deck);
-			console.log("made it 4");
 		}
 	}
-}
-
-
-//doesn't work
-function emptyPiles(deck){
-
-	for(i in state.players){
-		var myNode = document.getElementById("player"+i);
-		while(myNode.lastChild){
-			myNode.removeChild(myNode.lastChild);
-		}
-		console.log("made it");
-	}
-	// var myNode = document.getElementById("player"+playerVal);
-	// while(myNode.lastChild){
-	// 	myNode.removeChild(myNode.lastChild);
-	// }
-
-	//Console.log("made it 2");
-
-}
-
-//doesn't work
-function emptyPiles(deck){
-
-	for(i in state.players){
-		var myNode = document.getElementById("player"+i);
-		while(myNode.lastChild){
-			myNode.removeChild(myNode.lastChild);
-		}
-		console.log("made it");
-	}
-	// var myNode = document.getElementById("player"+playerVal);
-	// while(myNode.lastChild){
-	// 	myNode.removeChild(myNode.lastChild);
-	// }
-
-	//Console.log("made it 2");
-
 }
 
 function deal(deck)
@@ -99,12 +58,21 @@ function addToPile(deck, pile, card)
 		if(Http.readyState == 4 && Http.status == 200)
 		{
 			let node = document.createElement("img");
+
 			node.src = card.image;
 			node.classList.add("card");
 			node.height = document.getElementById("player1").height;
 			node.card = card;
 			node.id = card.code;
 			node.onclick = selectCards;
+			if(pile == state.playerVal)
+			{
+				node.src = card.image;
+			}
+			else
+			{
+				node.src = "./img/card-back.png";
+			}
 			document.getElementById("player" + pile).appendChild(node);
 		}
 	}
@@ -142,7 +110,6 @@ function clearSelected()
 function playerPlayCards()
 {
 	moveAllCards("lastPlayed", "table");
-
 	let selecteds = document.getElementsByClassName("selected");
 	let cards = "";
 	if(selecteds.length == document.getElementById("numberSelect").value)
@@ -157,19 +124,23 @@ function playerPlayCards()
 		
 		var count = document.getElementById("table").childNodes.length +selecteds.length -3;
 		document.getElementById("card-count").innerText = "Pile has "+count+" cards";
-	
+    
 		for(var i = 0; i < selecteds.length; i++)
 		{
 			cards += selecteds[i].card.code + ",";
 			document.getElementById("table").appendChild(selecteds[i]);
 		}
-		//document.getElementById("table").appendChild(document.createElement("br"));
 		movePiles("lastPlayed", cards, function(){});
 		clearSelected();
 		let button = document.getElementById("submitButton");
 
 		button.disabled = true;
-		state.nextTurn();
+		for(var i = 0; i < state.bots.length-1; i++)
+		{
+			state.bots[i].checkHand(document.getElementById("numberSelect").value);
+		}
+
+		setTimeout(state.nextTurn(), 2000);
 	}
 	else
 	{
@@ -239,7 +210,7 @@ function bs()
 	http.send();
 	http.onreadystatechange = (e)=>
 	{
-		if(http.readyState == 4 && http.status == 200) //allowed to go through twice???
+		if(http.readyState == 4 && http.status == 200)
 		{
 			let response = JSON.parse(http.responseText);
 			var cards = Array();
