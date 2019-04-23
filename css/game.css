@@ -30,6 +30,10 @@ body
 {
 	text-align: center;
 }
+#last-played 
+{
+	text-align: center;
+}
 #table{	
 	position: absolute;
 	left: 50%;

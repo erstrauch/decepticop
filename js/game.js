@@ -122,12 +122,15 @@ function playerPlayCards()
 
 		}
 		
-		var count = document.getElementById("table").childNodes.length +selecteds.length -3;
+		var count = document.getElementById("table").childNodes.length + selecteds.length - 3;
 		document.getElementById("card-count").innerText = "Pile has "+count+" cards";
+		document.getElementById("last-played").innerText = "You have played " + selecteds.length + " " + state.getCurrCard() + "(s)";
+
 
 		for(var i = 0; i < selecteds.length; i++)
 		{
 			cards += selecteds[i].card.code + ",";
+			selecteds[i].src = "./img/card-back.png";
 			document.getElementById("table").appendChild(selecteds[i]);
 		}
 		movePiles("lastPlayed", cards, function(){});
@@ -135,12 +138,27 @@ function playerPlayCards()
 		let button = document.getElementById("submitButton");
 
 		button.disabled = true;
-		for(var i = 0; i < state.bots.length-1; i++)
+		for(var i = 0; i < state.bots.length; i++)
 		{
 			state.bots[i].checkHand(document.getElementById("numberSelect").value);
 		}
-
-		setTimeout(state.nextTurn(), 2000);
+		setTimeout(function(){
+			var bsCall = false;		
+			for(var i = 0; i < state.bots.length; i++)
+			{
+				if(state.bots[i].bs)
+				{
+					alert("Player " + (i+1) + " has called BS!");
+					bsCall = true;
+					bs();
+					break;
+				}
+			}
+			if(!bsCall)
+			{
+				state.nextTurn();
+			}
+		}, 2500);
 	}
 	else
 	{
@@ -163,7 +181,7 @@ function movePiles(pile, cards, callback)
 	}
 }
 
-function moveAllCards(pile1, pile2)
+function moveAllCards(pile1, pile2, callback = function(){})
 {
 	const Http = new XMLHttpRequest();
 	// create query string for the card
@@ -196,7 +214,7 @@ function moveAllCards(pile1, pile2)
 						}
 					}
 				}
-				movePiles(pile2, cards, function(){});
+				movePiles(pile2, cards, callback);
 			}
 		}
 	}
@@ -218,7 +236,6 @@ function bs()
 			var myList = document.getElementsByClassName("card");
 			for(var i = 0; i < myList.length; i++){
 					myList[i].hidden = false;
-					console.log(myList[i]);
 			}
 			if(response.piles[state.turn] != undefined)
 			{
@@ -229,11 +246,9 @@ function bs()
 					if(response.piles["lastPlayed"].cards[i].value !== state.getCurrCard())
 					{
 						bad = true;
-						break;
 					}
 				}
 				console.log(bad);
-				
 				if(bad)
 				{
 					moveAllCards("lastPlayed", state.turn);
@@ -245,8 +260,26 @@ function bs()
 				}
 				else
 				{
-					moveAllCards("lastPlayed", state.playerVal);
-					moveAllCards("table", state.playerVal);
+					moveAllCards("lastPlayed", state.playerVal, function(){
+							var tableCards = document.getElementById("player3").childNodes;
+							for(var i = 0; i < tableCards.length; i++)
+							{
+								if(tableCards[i].card != undefined)
+								{
+									tableCards[i].src = tableCards[i].card.image;
+								}
+							}
+					});
+					moveAllCards("table", state.playerVal, function(){
+							var tableCards = document.getElementById("player3").childNodes;
+							for(var i = 0; i < tableCards.length; i++)
+							{
+								if(tableCards[i].card != undefined)
+								{
+									tableCards[i].src = tableCards[i].card.image;
+								}
+							}
+					});
 					for(card in cards)
 					{
 						document.getElementById("player" + state.playerVal).appendChild(document.getElementById(cards[card].code));
@@ -254,11 +287,12 @@ function bs()
 				}
 			}
 			let bsButtons = document.getElementsByClassName("bs");
+			document.getElementById("card-count").innerText = "Pile has 0 cards";
 			for(var i = 0; i < bsButtons.length; i++)
 			{
 				bsButtons[i].disabled = true;
 			}
-			state.nextTurn();
+			setTimeout(state.nextTurn(), 1000);
 		}
 	}
 }
@@ -270,7 +304,7 @@ function ok()
 	{
 		bsButtons[i].disabled = true;
 	}
-	state.nextTurn();
+	setTimeout(state.nextTurn(), 1000);
 }
 
 function startGame()

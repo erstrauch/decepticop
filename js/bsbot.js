@@ -5,6 +5,7 @@ class bsBot
 		this.playerID = playerID;
 		this.deck = deck;
 		this.state = state;
+		this.bs = null;
 	}
 
 	playTurn()
@@ -45,11 +46,15 @@ class bsBot
 						}
 						cards[response.piles[this.playerID].cards[i].value].push(response.piles[this.playerID].cards[i]);
 					}
-					if(cards[state.getCurrCard()] != undefined && cards[state.getCurrCard()].length + numPlayed > 4)
+
+					if(cards[state.getCurrCard()] != undefined && cards[state.getCurrCard()].length + parseInt(numPlayed) > 4)
 					{
-						bs();
-						Alert("Player " + this.playerID + " has called BS!");
-					}	
+						this.bs = true;
+					}
+					else
+					{
+						this.bs = false;
+					}
 				}
 			}
 		}
@@ -88,6 +93,7 @@ class bsBot
 							playCards += cards[state.getCurrCard()][i].code + ",";
 							table.appendChild(document.getElementById(cards[state.getCurrCard()][i].code));
 						}
+						document.getElementById("last-played").innerText = "Player " + (this.playerID+1) + " has played " + cards[state.getCurrCard()].length + " " + state.getCurrCard() + "(s)";
 						movePiles("lastPlayed", playCards, function(){});
 					}
 					else
@@ -107,7 +113,8 @@ class bsBot
 							numCards = 2;
 						}
 						var count = document.getElementById("table").childNodes.length +numCards -3;
-						document.getElementById("card-count").innerText = "Pile has "+count+" cards";					
+						document.getElementById("card-count").innerText = "Pile has "+count+" cards";
+						document.getElementById("last-played").innerText = "Player " + (this.playerID+1) + " has played " + numCards + " " + state.getCurrCard() + "(s)";					
 						for(var i = 0; i < numCards; i++)
 						{
 							const Http = new XMLHttpRequest();
