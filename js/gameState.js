@@ -93,7 +93,7 @@ class gameState
 					{
 						alert("You have won the game!");
 					}
-					window.location.href = "https://forms.gle/oQfPedD59oTTukn26";
+					window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSe_UAyKMXjWzVpHJn5VJlcm7i00ghntyjFwBdrEE3KquD-YVg/viewform?usp=sf_link";
 				}
 			}
 		}
