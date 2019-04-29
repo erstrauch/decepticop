@@ -138,6 +138,7 @@ function playerPlayCards()
 			selecteds[i].src = "./img/card-back.png";
 			document.getElementById("table").appendChild(selecteds[i]);
 		}
+		savePlay({"player": "user", "action": "play", "cards": cards});
 		movePiles("lastPlayed", cards, function(){});
 		clearSelected();
 		let button = document.getElementById("submitButton");
@@ -155,6 +156,7 @@ function playerPlayCards()
 				{
 					alert("Player " + (i+1) + " has called BS!");
 					bsCall = true;
+					savePlay({"player": i, "action": "bs"});
 					bs();
 					break;
 				}
@@ -329,3 +331,10 @@ function startGame()
 	document.getElementById("startGame").style.display = "none";
 }
 
+function savePlay(play)
+{
+	$.post("./cgi-bin/gameLog.py", play, function(response)
+	{
+		console.log(response);
+	});
+}

@@ -59,9 +59,9 @@ class bsBot
 			}
 		}
 	}
-
 	playCards()
 	{
+
 		const Http = new XMLHttpRequest();
 		const url = "https://deckofcardsapi.com/api/deck/" + deck.deck_id + "/pile/" + this.playerID + "/list/";
 		Http.open("GET", url);
@@ -84,6 +84,7 @@ class bsBot
 					}
 					if(cards[state.getCurrCard()] != undefined)
 					{
+						savePlay({"player": this.playerID, "action": "play", "lie": false});
 						var playCards = "";
 						let table = document.getElementById("table");
 						var count = document.getElementById("table").childNodes.length +cards[state.getCurrCard()].length -3;
@@ -98,6 +99,7 @@ class bsBot
 					}
 					else
 					{
+						savePlay({"player": this.playerID, "action": "play", "lie": true});
 						let seed = Math.random();
 						var numCards = 1;
 						if(seed > .99)
