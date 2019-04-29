@@ -314,6 +314,17 @@ function ok()
 
 function startGame()
 {
+	let http = new XMLHttpRequest();
+	let url = "./cgi-bin/GazeTracking/QA.py";
+	http.open("POST", url);
+	http.send();
+	http.onreadystatechange = (e)=>
+	{
+		if(http.readyState == 4 && http.status == 200)
+		{
+			
+		}
+	}
 	state.nextTurn();
 	document.getElementById("startGame").style.display = "none";
 }
