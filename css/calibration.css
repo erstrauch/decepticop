@@ -1,0 +1,36 @@
+ #cross 
+ { 
+ 	background: red; 
+ 	height: 100px; 
+ 	position: relative; 
+ 	width: 20px; 
+ 	margin: auto;
+ } 
+ #cross:after
+ { 
+ 	background: red; 
+ 	content: ""; 
+ 	height: 20px; 
+ 	left: -40px; 
+ 	position: absolute; 
+ 	top: 40px;
+ 	width: 100px; 
+
+} 
+
+table
+{
+	width: 75%;
+	height: 75%;
+	margin: auto;
+}
+
+tr
+{
+	width: 100%;
+}
+td
+{
+	vertical-align: middle;
+	text-align: center;
+}
