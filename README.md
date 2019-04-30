@@ -1,18 +1,24 @@
 # Caught Ya Cheatin'
 
 Background
+
+
 Deception has changed in the age of technology. Lying and cheating to computers is fundamentally different from lying face-to-face. Can software be used to determine what deception of computers looks like?
 Eye-tracking
 Micro expressions
 Heart rate
 
 Goals
+
+
  Design a game that tricks users into deceiving the computer
 Record users responses and analyze video on different autonomic responses
 Create software that can be used by deception researchers for experiment related to deception of computers.
 
 
 Limitations
+
+
 Individual differences in deception cues are always a possibility. While a large aggregation of data could reveal the general clues of deception, individual responses might be highly varied.
     In addition, basing deception cues off of autonomic responses that are also related to stress mean that  high-stress situations or subjects with high anxiety may produce false positives.
 Ethical Questions
@@ -22,4 +28,9 @@ Ethical Questions
 
 Technology: 
 
+
 deckofcardsapi.com gave all of the card resources and allowed easy randomization and keeping track of which player had which card. 
+
+Most of the front end was done in vanilla js, though some jquery was used. 
+
+Face tracking is done through Gaze Tracking.
