@@ -93,6 +93,28 @@ class gameState
 					{
 						alert("You have won the game!");
 					}
+					
+					// Eye tracking calibration goes here
+					
+					/*
+					//First start up the recording script
+					let http = new XMLHttpRequest();
+					let url = "./cgi-bin/GazeTracking/QA2.py";
+					http.open("POST", url);
+					http.send();
+					http.onreadystatechange = (e)=>
+					{
+						if(http.readyState == 4 && http.status == 200)
+						{
+							
+						}
+					}
+
+					//Then do the calibration points
+
+					//Number the touchpoints 1-9, and each time one is clicked, send a POST request to gameLog.py with the data {"calibration": true, "touchpoint": *touchpoint*}, so the calibration can be synced with the QA2.py video
+
+					*/
 					window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSe_UAyKMXjWzVpHJn5VJlcm7i00ghntyjFwBdrEE3KquD-YVg/viewform?usp=sf_link";
 				}
 			}
