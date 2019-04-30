@@ -79,7 +79,7 @@ origin_time = time.clock()
 origin_frame_count = 0
 start = time.time()
 text = ""
-data_filename = "data_out2.csv"
+data_filename = "baseline_out.csv"
 
 with open(data_filename, 'a+') as f:
     f.write(time.ctime()+"\n\n")
@@ -98,7 +98,6 @@ with open(data_filename, 'a+') as f:
             frame_count = 0
             print(fps)
 
-        # We send this frame to GazeTracking to analyze it
         gaze.refresh(frame)
 
         textsize = cv2.getTextSize(text, cv2.FONT_HERSHEY_DUPLEX, 1, 2)[0]
@@ -134,29 +133,17 @@ with open(data_filename, 'a+') as f:
         else:
             face_lost = False
 
-        if pupils_lost and face_lost:
-            text = "Please position your head in the frame"
-        elif pupils_lost:
-            text = "Please keep eyes and visible and open"
-        else:
-            text = ""
-            if gaze.is_blinking():
-                blink_count += 1
-            if gaze.is_left():
-                left_look_count += 1    
-            if gaze.is_right():
-                right_look_count +=1
+        if gaze.is_blinking():
+            blink_count += 1
+        if gaze.is_left():
+            left_look_count += 1    
+        if gaze.is_right():
+            right_look_count +=1
         left_pupil_loc = gaze.pupil_left_coords()
         right_pupil_loc = gaze.pupil_right_coords()
 
         data = [time.ctime(), origin_frame_count, time.clock(), not(face_lost), gaze.pupils_located, fps, left_pupil_loc, right_pupil_loc, gaze.is_blinking(), blink_count, left_look_count, right_look_count]
-        # cv2.putText(frame, "Left pupil:  " + str(left_pupil_loc), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.5, (147, 58, 31), 1)
-        # cv2.putText(frame, "Right pupil: " + str(right_pupil_loc), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.5, (147, 58, 31), 1)
 
-        # print("Overlay", overlay.shape, "Frame", frame.shape)
-        # resized = cv2.resize(overlay, (frame.shape[1], frame.shape[0]))
-        # print("Resized", resized.shape, "Frame", frame.shape)
-        # cv2.add(overlay, frame)
         out.write(frame)
         f.write(','.join([str(x) for x in data])+"\n")
 

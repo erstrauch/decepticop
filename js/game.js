@@ -1,5 +1,6 @@
 let state = null;
 let deck = null;
+// startRecording();
 newGame();
 
 function newGame()
@@ -18,6 +19,7 @@ function newGame()
 		}
 	}
 }
+
 function deal(deck)
 {
 	for(let i = 0; i < 13; i++)
@@ -314,6 +316,21 @@ function ok()
 	setTimeout(state.nextTurn(), 1000);
 }
 
+function startRecording()
+{
+	let http = new XMLHttpRequest();
+	let url = "./cgi-bin/GazeTracking/QA.py";
+	http.open("POST", url);
+	http.send();
+	http.onreadystatechange = (e)=>
+	{
+		if(http.readyState == 4 && http.status == 200)
+		{
+			
+		}
+	}
+}
+
 function startGame()
 {
 	let http = new XMLHttpRequest();
@@ -327,14 +344,21 @@ function startGame()
 			
 		}
 	}
+	// startRecording();
 	state.nextTurn();
 	document.getElementById("startGame").style.display = "none";
 }
 
 function savePlay(play)
 {
-	$.post("./cgi-bin/gameLog.py", play, function(response)
-	{
-		console.log(response);
+	// if (performance.now() < 5000) {
+	// 	return setTimeout(savePlay(play), 5000);
+	// }
+	play["timestamp"] = new Date();
+	$.ajax({
+		url: "./cgi-bin/gameLog.py",
+		type: "get",
+		data: play,
+		success: function(response) {console.log(response)}
 	});
 }

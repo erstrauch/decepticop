@@ -11,7 +11,7 @@ import winsound
 from gaze_tracking import GazeTracking
 
 #
-# Video capture functions
+# Video capture setup functions
 #
 
 # Set resolution for the video capture
@@ -63,7 +63,6 @@ filename = 'video.avi'
 frames_per_second = 10
 res = '480p'
 out = cv2.VideoWriter(filename, get_video_type(filename), frames_per_second+1, get_dims(webcam, res))
-#overlay = cv2.imread('overlay2.png') 
 
 pupils_lost = False
 activity_threshold = 20
@@ -80,16 +79,20 @@ start = time.time()
 text = ""
 data_filename = "data_out.csv"
 
+# Recording and logging loop
 with open(data_filename, 'a+') as f:
+    # Append a new recording sessions with the date
     f.write(time.ctime()+"\n\n")
     while webcam.isOpened():
-        # We get a new frame from the webcam
+        # Get a new frame from the webcam
         _, frame = webcam.read()
+        # Wait a frame delay to prevent threads from piling up
         # key = cv2.waitKey(int((1/int(fps))*1000))
         key = cv2.waitKey(10)
         frame_count += 1
         origin_frame_count += 1
         
+        # Computer FPS (for frame delay and/or performance)
         if time.time() - start > 2:
             end = time.time()
             fps = frame_count // (end - start)
@@ -97,17 +100,19 @@ with open(data_filename, 'a+') as f:
             frame_count = 0
             print(fps)
 
-        # We send this frame to GazeTracking to analyze it
+        # Analyze frame with GazeTracking
         gaze.refresh(frame)
 
+        # Add indicators to frame
         textsize = cv2.getTextSize(text, cv2.FONT_HERSHEY_DUPLEX, 1, 2)[0]
         multiplier = 1
         textX = (frame.shape[1] - textsize[0]) // (2 * multiplier)
-
         cv2.putText(frame, text, (textX, 30), cv2.FONT_HERSHEY_DUPLEX, multiplier, (244, 66, 66), 2)
         cv2.imshow("Recording", frame)
 
         frame = gaze.annotated_frame()
+
+        # Track pupil detection, location, eyes, and face
 
         if not(gaze.pupils_located):
             continuous_undetected += 1
@@ -148,14 +153,11 @@ with open(data_filename, 'a+') as f:
         left_pupil_loc = gaze.pupil_left_coords()
         right_pupil_loc = gaze.pupil_right_coords()
 
+        # Compile data into a list
         data = [time.ctime(), origin_frame_count, time.clock(), not(face_lost), gaze.pupils_located, fps, left_pupil_loc, right_pupil_loc, gaze.is_blinking(), blink_count, left_look_count, right_look_count]
-        # cv2.putText(frame, "Left pupil:  " + str(left_pupil_loc), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.5, (147, 58, 31), 1)
-        # cv2.putText(frame, "Right pupil: " + str(right_pupil_loc), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.5, (147, 58, 31), 1)
 
-        # print("Overlay", overlay.shape, "Frame", frame.shape)
-        # resized = cv2.resize(overlay, (frame.shape[1], frame.shape[0]))
-        # print("Resized", resized.shape, "Frame", frame.shape)
-        # cv2.add(overlay, frame)
+        # Write frame to video
+        # Write data to output file
         out.write(frame)
         f.write(','.join([str(x) for x in data])+"\n")
 
